@@ -5,6 +5,7 @@ import { Toaster, toast } from "react-hot-toast";
 export default function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,6 +24,7 @@ export default function Contact() {
     e.preventDefault();
     if (!validateForm()) return;
     try {
+      setLoading(true)
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/form/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -34,6 +36,8 @@ export default function Contact() {
       }
     } catch (error) {
       toast.error("Form not submitted");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -74,8 +78,16 @@ export default function Contact() {
                   {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
                 </div>
               ))}
-              <button type="submit" className="w-full py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
-                Send Message
+              <button
+                type="submit"
+                className="w-full py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 flex justify-center items-center"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></span>
+                ) : (
+                  "Send Message"
+                )}
               </button>
             </form>
           </div>
