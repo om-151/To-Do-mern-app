@@ -109,7 +109,7 @@ export default function Home() {
             <Toaster position="top-center" reverseOrder={false} />
             <div className="w-full max-w-4xl">
                 <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">
-                    {isEditing ? "Edit Task" : "Add a New Task"}
+                    {isEditing ? "Edit Task" : "Manage your daily tasks"}
                 </h1>
                 <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 space-y-4">
                     <div className="flex flex-col md:flex-row gap-4">
