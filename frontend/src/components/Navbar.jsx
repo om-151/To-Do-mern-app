@@ -11,6 +11,7 @@ export default function Navbar() {
     const [formType, setFormType] = useState("login");
     const { user, signup, login, logout } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleClickOutside = (e) => {
         if (e.target.id === "modal-overlay") {
@@ -21,6 +22,7 @@ export default function Navbar() {
     // Handle Signup
     const handleSignup = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const name = e.target.fullName.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
@@ -31,12 +33,15 @@ export default function Navbar() {
             navigate("/");
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     // Handle Login
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true)
         const email = e.target.email.value;
         const password = e.target.password.value;
 
@@ -46,6 +51,8 @@ export default function Navbar() {
             navigate("/");
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -172,8 +179,8 @@ export default function Navbar() {
                                 <form onSubmit={handleLogin}>
                                     <input type="email" placeholder="Email" name="email" className="w-full mb-3 p-3 border rounded" />
                                     <input type="password" placeholder="Password" name="password" className="w-full mb-3 p-3 border rounded" />
-                                    <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">
-                                        Login
+                                    <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded flex justify-center items-center">
+                                        {loading ? <span className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></span> : "Login"}
                                     </button>
                                 </form>
 
@@ -192,8 +199,8 @@ export default function Navbar() {
                                     <input type="text" placeholder="Full Name" name="fullName" className="w-full mb-3 p-3 border rounded" />
                                     <input type="email" placeholder="Email" name="email" className="w-full mb-3 p-3 border rounded" />
                                     <input type="password" placeholder="Password" name="password" className="w-full mb-3 p-3 border rounded" />
-                                    <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">
-                                        Sign Up
+                                    <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded flex justify-center items-center">
+                                        {loading ? <span className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></span> : "Sign Up"}
                                     </button>
                                 </form>
 

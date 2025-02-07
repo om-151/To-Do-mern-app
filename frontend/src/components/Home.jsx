@@ -10,6 +10,7 @@ export default function Home() {
     const [todos, setTodos] = useState([]);
     const [isEditing, setIsEditing] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [btnloading, setBtnLoading] = useState(false);
 
     const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/todos`;
 
@@ -44,11 +45,11 @@ export default function Home() {
             toast.error("Both fields are required!");
             return;
         }
-
         const todoData = { user: user._id, title, description };
 
         try {
             if (isEditing) {
+                setBtnLoading(true)
                 const updatedTodo = await axios.put(`${API_BASE_URL}/${isEditing}`, todoData);
                 // Update the task in the state
                 setTodos((prevTodos) =>
@@ -56,10 +57,13 @@ export default function Home() {
                         todo._id === isEditing ? updatedTodo.data : todo
                     )
                 );
+                setBtnLoading(false)
                 toast.success("Task updated successfully!");
             } else {
+                setBtnLoading(true)
                 const response = await axios.post(API_BASE_URL, todoData);
                 setTodos([...todos, response.data]);
+                setBtnLoading(false)
                 toast.success("Task added successfully!");
             }
             setTitle("");
@@ -67,6 +71,8 @@ export default function Home() {
             setIsEditing(null);
         } catch {
             toast.error("Failed to save task!");
+        } finally {
+            setBtnLoading(false)
         }
     };
 
@@ -138,7 +144,11 @@ export default function Home() {
                         type="submit"
                         className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition"
                     >
-                        {isEditing ? "Update Task" : "Add Task"}
+                        {btnloading ? (
+                            <span className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></span>
+                        ) : (
+                            isEditing ? "Update Task" : "Add Task"
+                        )}
                     </button>
                 </form>
 
