@@ -10,7 +10,7 @@ export default function Home() {
     const [todos, setTodos] = useState([]);
     const [isEditing, setIsEditing] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [toggleloading, setToggleLoading] = useState(true);
+    const [toggleloading, setToggleLoading] = useState(false);
     const [btnloading, setBtnLoading] = useState(false);
 
     const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/todos`;
