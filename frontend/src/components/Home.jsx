@@ -140,12 +140,23 @@ export default function Home() {
                             ></textarea>
                         </div>
                     </div>
-                    <button
+                    {/* <button
                         type="submit"
                         className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition"
                     >
                         {btnloading ? (
                             <span className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></span>
+                        ) : (
+                            isEditing ? "Update Task" : "Add Task"
+                        )}
+                    </button> */}
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition flex justify-center items-center"
+                        disabled={btnloading} // Disable button when loading
+                    >
+                        {btnloading ? (
+                            <span className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></span>
                         ) : (
                             isEditing ? "Update Task" : "Add Task"
                         )}
