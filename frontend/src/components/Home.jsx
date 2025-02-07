@@ -71,19 +71,19 @@ export default function Home() {
             setIsEditing(null);
         } catch {
             toast.error("Failed to save task!");
-        } finally {
-            setBtnLoading(false)
         }
     };
 
     const handleToggleComplete = async (id, completed) => {
         try {
+            setBtnLoading(true)
             const response = await axios.put(`${API_BASE_URL}/${id}`, { completed: !completed });
             setTodos((prevTodos) =>
                 prevTodos.map((todo) =>
                     todo._id === id ? { ...todo, completed: response.data.completed } : todo
                 )
             );
+            setBtnLoading(false)
             toast.success("Task status updated!");
         } catch {
             toast.error("Failed to toggle task status!");
@@ -98,8 +98,10 @@ export default function Home() {
 
     const handleDelete = async (id) => {
         try {
+            setBtnLoading(true)
             await axios.delete(`${API_BASE_URL}/${id}`);
             setTodos(todos.filter((todo) => todo._id !== id));
+            setBtnLoading(false)
             toast.success("Task deleted successfully!");
         } catch {
             toast.error("Failed to delete task!");
@@ -140,16 +142,6 @@ export default function Home() {
                             ></textarea>
                         </div>
                     </div>
-                    {/* <button
-                        type="submit"
-                        className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition"
-                    >
-                        {btnloading ? (
-                            <span className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></span>
-                        ) : (
-                            isEditing ? "Update Task" : "Add Task"
-                        )}
-                    </button> */}
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition flex justify-center items-center"
@@ -182,10 +174,14 @@ export default function Home() {
                                     <div className="flex space-x-2 mt-4 md:mt-0">
                                         <button
                                             onClick={() => handleToggleComplete(todo._id, todo.completed)}
-                                            className={`px-3 py-1 rounded text-white ${todo.completed ? "bg-yellow-500 hover:bg-yellow-600" : "bg-green-500 hover:bg-green-600"
-                                                }`}
+                                            className={`px-3 py-1 rounded text-white flex justify-center items-center ${todo.completed ? "bg-yellow-500 hover:bg-yellow-600" : "bg-green-500 hover:bg-green-600"}`}
+                                            disabled={btnloading}
                                         >
-                                            {todo.completed ? "Undo" : "Complete"}
+                                            {btnloading ? (
+                                                <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                            ) : (
+                                                todo.completed ? "Undo" : "Complete"
+                                            )}
                                         </button>
                                         <button
                                             onClick={() => handleEdit(todo)}
@@ -195,9 +191,14 @@ export default function Home() {
                                         </button>
                                         <button
                                             onClick={() => handleDelete(todo._id)}
-                                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
+                                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded flex justify-center items-center"
+                                            disabled={btnloading}
                                         >
-                                            Delete
+                                            {btnloading ? (
+                                                <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                            ) : (
+                                                "Delete"
+                                            )}
                                         </button>
                                     </div>
                                 </div>
