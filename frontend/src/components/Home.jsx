@@ -10,6 +10,7 @@ export default function Home() {
     const [todos, setTodos] = useState([]);
     const [isEditing, setIsEditing] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [toggleloading, setToggleLoading] = useState(true);
     const [btnloading, setBtnLoading] = useState(false);
 
     const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/todos`;
@@ -76,14 +77,14 @@ export default function Home() {
 
     const handleToggleComplete = async (id, completed) => {
         try {
-            setBtnLoading(true)
+            setToggleLoading(true)
             const response = await axios.put(`${API_BASE_URL}/${id}`, { completed: !completed });
             setTodos((prevTodos) =>
                 prevTodos.map((todo) =>
                     todo._id === id ? { ...todo, completed: response.data.completed } : todo
                 )
             );
-            setBtnLoading(false)
+            setToggleLoading(false)
             toast.success("Task status updated!");
         } catch {
             toast.error("Failed to toggle task status!");
@@ -175,9 +176,9 @@ export default function Home() {
                                         <button
                                             onClick={() => handleToggleComplete(todo._id, todo.completed)}
                                             className={`px-3 py-1 rounded text-white flex justify-center items-center ${todo.completed ? "bg-yellow-500 hover:bg-yellow-600" : "bg-green-500 hover:bg-green-600"}`}
-                                            disabled={btnloading}
+                                            disabled={toggleloading}
                                         >
-                                            {btnloading ? (
+                                            {toggleloading ? (
                                                 <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                             ) : (
                                                 todo.completed ? "Undo" : "Complete"
