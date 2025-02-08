@@ -112,9 +112,24 @@ export default function Home() {
         }
     };
 
+    // if (loading) {
+    //     return <>
+    //         <div className="flex flex-col items-center justify-center min-h-screen">
+    //             <img src={Loader} alt="Loader" height={300} width={300} />
+    //             <p className="text-3xl font-bold my-10">Loading products...</p>
+    //         </div>
+    //     </>
+    // }
+
     if (loading) {
-        return <p className="text-center text-gray-600 mt-10">Loading...</p>;
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-blue-500"></div>
+                <p className="text-3xl font-bold my-10">Loading products...</p>
+            </div>
+        );
     }
+
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center px-4 py-10">
