@@ -124,9 +124,10 @@ export default function Home() {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-                <div className="relative flex items-center justify-center">
-                    <div className="w-16 h-16 border-4 border-blue-500 border-solid rounded-full animate-spin"></div>
-                    <div className="absolute w-10 h-10 border-4 border-t-transparent border-blue-300 border-solid rounded-full animate-[spin_2s_linear_infinite]"></div>
+                <div className="flex space-x-2">
+                    <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce delay-200"></div>
+                    <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce delay-400"></div>
                 </div>
                 <p className="text-xl font-semibold text-blue-600 mt-5">Loading...</p>
             </div>
